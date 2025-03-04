@@ -1,5 +1,8 @@
 # SMS Spam Detection | Preprocessing & Five Classifier Model
 
+<img src="https://github.com/user-attachments/assets/49fbe5e5-afc8-4123-9f82-75471486a706" width="40%">
+
+
 ## Description
 
 Dataset: [SMS Spam Collection Dataset](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
@@ -10,7 +13,6 @@ messages in English of 5,574 messages, tagged acording being ham (legitimate) or
 
 ### Data Understanding
 
-Dataset: [Airplane Price Prediction](https://www.kaggle.com/datasets/asinow/airplane-price-dataset)
 | Column Name                  | Description                                                                 |
 |----------------------------|-------------------------------------------------------------------------|
 | **v1**                  | Spam or ham, label-target. |
@@ -36,7 +38,8 @@ Dataset: [Airplane Price Prediction](https://www.kaggle.com/datasets/asinow/airp
 
 ### Example of What We Succeed
 
-```Sample of column text:
+```
+Sample of column text:
 I want to show you the world, princess :) how about europe?
 
 Sample of column clean_text: 
