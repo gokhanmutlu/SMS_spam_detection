@@ -16,53 +16,109 @@ Dataset: [Airplane Price Prediction](https://www.kaggle.com/datasets/asinow/airp
 | **v1**                  | Spam or ham, label-target. |
 | **v2**                  | Text of SMS. |
 
+<br/>
+
 ## Analyze (EDA)
 
-<img src="https://github.com/gokhanmutlu/surface_temperature_EDA/blob/main/images/Average%20Surface%20Temperature%20by%20Year.png" width="60%">
+<img src="https://github.com/user-attachments/assets/9e84deb4-307a-4e16-812a-84e472294d79" width="60%">
 
-- Farklı modellerin farklı bölgelerdeki satış fiyatlarında gözle 
-görülür bir fark yok. Boeing 777'nin 
-Avrupadaki satışında aykırı veri noktaları içeriyor.
-<br/>
+- Contains imbalanced data.
 
-<img src="https://github.com/gokhanmutlu/surface_temperature_EDA/blob/main/images/Hottest-Coldest%20Countries.png" width="60%">
+### Text Adjustment Techniques
 
-- Genel ve doğal olarak uçağın yaşı arttıkça fiyatı aynı 
-şekilde düşme eğilimi gösteriyor. Fakat bu düşüş bazı modeller için daha hızlı 
-olurken bazı modeller için daha hafif bir şekilde gerçekleşmiş.
-<br/>
+- **WordNetLemmatizer:** Reduces words to their base or dictionary form (lemma), preserving meaning (e.g., "running" → "run").
 
-<img src="https://github.com/gokhanmutlu/surface_temperature_EDA/blob/main/images/Hottest-Coldest-Boxplot.png" width="60%">
+- **PorterStemmer**: Stems words by removing suffixes, often resulting in non-dictionary forms (e.g., "running" → "run").
 
-- Cessna 172 modeli için yakıt tüketimi arttıkça fiyatında herhangi 
-bir değişim olmadığı gözükmekte. Bu uçak modelinin daha az kapasiteli olmasından dolayı 
-kaynaklanıyor olabilir.
-<br/>
+- **CountVectorizer:** Converts text into a matrix of word counts, representing text as numerical data.
 
-<img src="https://github.com/gokhanmutlu/surface_temperature_EDA/blob/main/images/Monthly%20Average%20Temperature.png" width="60%">
+- **TfidfVectorizer:** Converts text into a matrix of TF-IDF scores, emphasizing important words while downweighting common ones.
 
-- When examining the general temperature averages, it is evident that the average temperature during the summer season is higher compared to other seasons.
-<br/>
+### Example of What We Succeed
 
+```Sample of column text:
+I want to show you the world, princess :) how about europe?
 
-<p float="left">
-    <img src="https://github.com/gokhanmutlu/surface_temperature_EDA/blob/main/images/Linear%20Regression.png" width="49%">
-    <img src="https://github.com/gokhanmutlu/surface_temperature_EDA/blob/main/images/Temperature%20Forecast.png" width="49%">
+Sample of column clean_text: 
+i want to show you the world princess how about europe
 
-</p>
+Sample of column without_stopwords: 
+want show world princess europe
 
-<br/>
+Sample of column lemmatization: 
+want show world princess europe
 
-- ``Üretim yılı`` ve `yaş` negatif korelasyon gösteriyor
-- ``Kapasite`` ``Menzil`` birbirleri arasında yüksek korelasyon gösteriyor. Multicollinearity oluşturuyor.
-- `Fiyat` ile yüksek korelasyon gösteren `Kapasite` `Menzil` özelliklerinden biri kullanılacak modele göre çıkarılabilir.
+Sample of column stemming_lemmatization: 
+want show world princess europ
+```
 
 <br/>
 
 ## Construct
 
+### Builded Models
+
+1. LogisticRegression
+2. SVC
+3. MultinomialNB
+4. BernoulliNB
+6. XGBClassifier
+
+### Result of Models
+
+#### GridSearchCV Results
+
+<img src="https://github.com/user-attachments/assets/35530a59-7a4b-4932-9af2-410ba16850ae" width="60%">
+
+<br/>
+
+
+
+#### Classification Results
+<img src="https://github.com/user-attachments/assets/e3c6aa3e-4493-4765-b04f-ffd549b16d83" width="60%">
+
+#### Confussion Matrixes
+<p float="left">
+    <img src="https://github.com/gokhanmutlu/SMS_spam_detection/blob/main/images/cm1.png" width="33%">
+    <img src="https://github.com/gokhanmutlu/SMS_spam_detection/blob/main/images/cm2.png" width="33%">
+    <img src="https://github.com/gokhanmutlu/SMS_spam_detection/blob/main/images/cm3.png" width="33%">
+    
+</p>
+
+<br/>
+
+<p float="left">
+    <img src="https://github.com/gokhanmutlu/SMS_spam_detection/blob/main/images/cm4.png" width="33%">
+    <img src="https://github.com/gokhanmutlu/SMS_spam_detection/blob/main/images/cm5.png" width="33%">
+    
+</p>
+
+<br/>
+
 ## Summary
 
-1. Kapasite, doğrudan uçağın büyüklüğü ve taşıma kapasitesi ile ilgili olduğu için fiyat üzerinde belirleyici bir etkiye sahip.
-2. Üretim Yılı ise uçakların yaşını gösterdiği için, genellikle yaşlanan uçaklar daha düşük fiyatlara sahip olur. Bu yüzden üretim yılı, modeldeki en etkili faktörlerden biri olabiliyor.
-3. XGBRegression fiyatları tahminlerken yaklaşık %98 bir başarı sağlıyor. Ayrıca RMSE için de diğer modellere göre daha az sapma gösteriyor.
+#### **Why Choose BernoulliNB?**
+
+*Highest Recall (0.935):* Best at minimizing false negatives, making it ideal when missing positive cases is costly.
+
+*Highest AUC (0.990):* Excellent at distinguishing between classes, especially useful for imbalanced datasets.
+
+*Good F1-Score (0.913):* Balances precision and recall effectively.
+
+*Lightweight and Fast:* Efficient for large datasets due to its simplicity.
+
+#### **Why Choose SVC?**
+
+*Highest Precision (0.989):* Best at minimizing false positives, ideal when false alarms are critical.
+
+*Highest Accuracy (0.980):* Overall, it makes the most correct predictions.
+
+*Strong F1-Score (0.913):* Balances precision and recall well.
+
+*Robust Performance:* Handles complex decision boundaries effectively.
+
+### **Summary:**
+
+Choose BernoulliNB if recall and AUC are priorities (e.g., medical diagnosis, fraud detection).
+
+Choose SVC if precision and accuracy are critical (e.g., spam detection, quality control).
